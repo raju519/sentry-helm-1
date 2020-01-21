@@ -22,7 +22,7 @@ spec:
           value: {{ .Values.SENTRY_DB_PASSWORD }}
       - name: sentry-createuser
         image: {{ .Values.SENTRY_IMAGE }}
-        command: ["sentry", "createuser", "--no-input", "--email", "adrian.arroyocalle@telefonica.com", "--superuser", "--password", "2509SanFdo.$"]
+        command: ["sentry", "createuser", "--no-input", "--email", "adrian.arroyocalle@telefonica.com", "--superuser", "--password", "12341234"]
         env:
         - name: SENTRY_SECRET_KEY
           value: {{ .Values.SENTRY_SECRET_KEY }}
