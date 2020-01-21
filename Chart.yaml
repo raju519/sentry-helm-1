@@ -1,0 +1,18 @@
+apiVersion: v2
+name: sentry
+version: 1.0.0
+appVersion: 10.0
+kubeVersion: 1.x
+description: |
+  Sentry is an application that catches the errors produced at runtime.
+type: application
+keywords:
+ - sentry
+home: https://sentry.io
+sources:
+ - https://github.com/getsentry/onpremise
+maintainers:
+ - name: Adrián Arroyo Calle
+   email: adrian.arroyocalle@telefonica.com
+   url: http://adrianistan.eu
+deprecated: false

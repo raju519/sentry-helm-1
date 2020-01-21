@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sentry-migration
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: sentry-migration
+        image: {{ .Values.SENTRY_IMAGE }}
+        command: ["sentry", "upgrade", "--noinput"]
+        env:
+        - name: SENTRY_SECRET_KEY
+          value: {{ .Values.SENTRY_SECRET_KEY }}
+        - name: SENTRY_POSTGRES_HOST
+          value: {{ .Values.SENTRY_POSTGRES_HOST }}
+        - name: SENTRY_DB_NAME
+          value: {{ .Values.SENTRY_DB_NAME }}
+        - name: SENTRY_DB_USER
+          value: {{ .Values.SENTRY_DB_USER }}
+        - name: SENTRY_DB_PASSWORD
+          value: {{ .Values.SENTRY_DB_PASSWORD }}
+      - name: sentry-createuser
+        image: {{ .Values.SENTRY_IMAGE }}
+        command: ["sentry", "createuser", "--no-input", "--email", "adrian.arroyocalle@telefonica.com", "--superuser", "--password", "2509SanFdo.$"]
+        env:
+        - name: SENTRY_SECRET_KEY
+          value: {{ .Values.SENTRY_SECRET_KEY }}
+        - name: SENTRY_POSTGRES_HOST
+          value: {{ .Values.SENTRY_POSTGRES_HOST }}
+        - name: SENTRY_DB_NAME
+          value: {{ .Values.SENTRY_DB_NAME }}
+        - name: SENTRY_DB_USER
+          value: {{ .Values.SENTRY_DB_USER }}
+        - name: SENTRY_DB_PASSWORD
+          value: {{ .Values.SENTRY_DB_PASSWORD }}
+      containers:
+      - name: void
+        image: "alpine:3.10.2"
+        command: ["true"]
+      restartPolicy: Never
+    
