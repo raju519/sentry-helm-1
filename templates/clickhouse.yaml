@@ -9,21 +9,20 @@ data:
       <listen_host>0.0.0.0</listen_host>
       <listen_try>1</listen_try>
 
-      <!--
       <logger>
           <console>1</console>
       </logger>
-      -->
     </yandex>
 
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: clickhouse
   labels:
     app: clickhouse
 spec:
+  serviceName: clickhouse
   replicas: 1
   selector:
     matchLabels:
@@ -46,6 +45,8 @@ spec:
         volumeMounts:
         - name: clickhouse-config
           mountPath: /etc/clickhouse-server/config.d
+        - name: clickhouse-data
+          mountPath: /var/lib/clickhouse
       volumes:
       - name: clickhouse-config
         configMap:
@@ -53,6 +54,16 @@ spec:
           items:
           - key: config.xml
             path: config.xml
+  volumeClaimTemplates:
+  - metadata:
+      name: clickhouse-data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: default
+      resources:
+        requests:
+          storage: 5Gi
 ---
 apiVersion: v1
 kind: Service

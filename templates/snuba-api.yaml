@@ -17,6 +17,8 @@ spec:
       containers:
       - name: snuba-api
         image: getsentry/snuba:latest
+        imagePullPolicy: Always
+        #args: ["api", "--honour-stdin", "--socket", "/tmp/snuba.sock", "--http", "0.0.0.0:1218", "--http-keepalive"]
         ports:
         - containerPort: 1218
         env:
@@ -25,7 +27,7 @@ spec:
         - name: CLICKHOUSE_HOST
           value: clickhouse
         - name: CLICKHOUSE_PORT
-          value: "8123"
+          value: "9000"
         - name: DEFAULT_BROKERS
           value: sentry-kafka:9092
         - name: REDIS_HOST
