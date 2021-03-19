@@ -60,7 +60,7 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: default
+      storageClassName: clickhouse-data
       resources:
         requests:
           storage: 5Gi
